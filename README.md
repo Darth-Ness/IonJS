@@ -25,3 +25,6 @@ This code will import the CSS styles for ```p``` and ```button```
 # Features That May Come Someday
 * Filesytem watcher that provide automatic updates (pretty likely)
 * A better way to detect used styles and function from files (only happening if I can figure out how to do that)
+
+# How to use this
+You can clone this repo and use run ```node ion.js src/``` to run the example included in the repo. Otherwise you can get the release which doesn't include an example
