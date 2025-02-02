@@ -1,5 +1,5 @@
 const fs = require('fs');
-var directoryPath = process.argv[2];
+var directoryPath = `${process.cwd()}/${process.argv[2]}`;
 fs.readdir(directoryPath, (err, files) => {
     if (err) { return console.error('Unable to scan directory: ' + err); }
     files.forEach(file => {
