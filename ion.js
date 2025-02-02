@@ -17,19 +17,22 @@ fs.readdir(directoryPath, (err, files) => {
                         tags.splice(i-2, 2)
                         tags.splice(i-1, 1)
                     }
-                    if (tags[i].indexOf("</import") != -1) {
-                        var isCSS = tags[i].indexOf(".css") != -1 ? true : false;
-                        if (tags[i].indexOf(";") == -1) {
-                            tags[i] = fs.readFileSync(`${directoryPath}/${tags[i].slice(0,-8)}`, 'utf8');
+                    try {
+                        if (tags[i].indexOf("</import") != -1) {
+                            var isCSS = tags[i].indexOf(".css") != -1 ? true : false;
+                            if (tags[i].indexOf(";") == -1) {
+                                tags[i] = fs.readFileSync(`${directoryPath}/${tags[i].slice(0,-8)}`, 'utf8');
+                            }
+                            else { 
+                                tags[i] = parseCode(fs.readFileSync(`${directoryPath}/${tags[i].split(";")[0]}`, 'utf8'), tags[i]);
+                            }
+                            tags.splice(i-2, 2)
+                            tags.splice(i-1, 1)
+                            if (isCSS) { tags[i-2] = `<style>${tags[i-2]}</style>`; }
+                            else { tags[i-2] = `<script>${tags[i-2]}</script>`; }
                         }
-                        else { 
-                            tags[i] = parseCode(fs.readFileSync(`${directoryPath}/${tags[i].split(";")[0]}`, 'utf8'), tags[i]);
-                        }
-                        tags.splice(i-2, 2)
-                        tags.splice(i-1, 1)
-                        if (isCSS) { tags[i-2] = `<style>${tags[i-2]}</style>`; }
-                        else { tags[i-2] = `<script>${tags[i-2]}</script>`; }
                     }
+                    catch { console.log("The end of code was reached"); }
                 }
             }
 
